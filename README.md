@@ -55,8 +55,8 @@ You can **freely test and benchmark** Purem locally – the **same architecture*
 Clone the repository:
 
 ```bash
-git clone https://github.com/worktif/purem_benchmarks.git
-cd purem_benchmarks
+git clone https://github.com/worktif/purem_sandbox.git
+cd purem_sandbox
 ```
 
 Install dependencies:
