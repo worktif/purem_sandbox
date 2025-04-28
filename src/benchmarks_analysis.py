@@ -261,7 +261,7 @@ class BenchmarksAnalysis:
                 warnings.warn(f"Smoothing skipped: {e}")
                 acceleration_smooth = acceleration
 
-            plt.plot(common_sizes, acceleration_smooth, marker='o', label=f"Purem vs {func_name}")
+            plt.plot(common_sizes, acceleration_smooth, marker='o', label=f"Purem vs {func_name.partition(':')[2].strip()}")
 
         plt.xscale('log')
         plt.yscale('log')
