@@ -16,7 +16,7 @@ benchmarks:
 .PHONY: benchmarks
 
 plot:
-	@LAST_TEST_ID=$$(find .benchmarks/Darwin-CPython-3.11-64bit -name '*.json' | sort | tail -n 1 | sed -E 's#.*/([0-9]+)_.*#\1#'); \
+	@LAST_TEST_ID=$$(find .benchmarks/$$BENCHMARKS_PLATFORM -name '*.json' | sort | tail -n 1 | sed -E 's#.*/([0-9]+)_.*#\1#'); \
     	echo "Benchmarks with LAST_TEST_ID=$$LAST_TEST_ID are plotting..."; \
     	python -m src.performance_plots $$LAST_TEST_ID $$BENCHMARKS_PLATFORM
 .PHONY: plot

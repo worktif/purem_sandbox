@@ -81,6 +81,22 @@ Generates full performance plots under `src/purem_benchmarks/` showing a runtime
 
 Check it out: [CI/CD Purem Benchmarks](https://github.com/worktif/purem_sandbox/actions)
 
+---
+
+
+## 📊 Benchmark Highlights
+
+Here’s a quick look at how Purem compares to existing Python ML libraries:
+
+![Acceleration](./docs/assets/benchmark_acceleration_large.png)
+*Acceleration (Purem vs NumPy, PyTorch, Numba)*
+
+![OPS](./docs/assets/benchmark_ops_large.png)
+*Operations per second on large inputs (log scale)*
+
+![Stability](./docs/assets/benchmark_mean_large.png)
+*Mean numerical error across large input sizes – lower values indicate higher numerical precision under load.*
+
 
 ---
 
