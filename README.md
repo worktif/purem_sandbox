@@ -1,7 +1,7 @@
 # Purem Benchmarks - High-Performance Mapping Operations
 [![PyPI version](https://badge.fury.io/py/purem.svg)](https://pypi.org/project/purem/)
 [![Architecture](https://img.shields.io/badge/sandbox-Apple%20Silicon-green)](https://developer.apple.com/documentation/apple-silicon)
-[![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-blue.svg)](https://worktif.com/documents/terms-of-service)
+[![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-blue.svg)](https://worktif.com/documents/terms-of-service-sandbox)
 
 **The New Standard**  
 Optimized for **x86-64**, **Intel**, and **ARM (Apple Silicon M1–M4)** servers.
