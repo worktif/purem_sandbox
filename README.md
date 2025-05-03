@@ -3,6 +3,16 @@
 [![Architecture](https://img.shields.io/badge/sandbox-Apple%20Silicon-green)](https://developer.apple.com/documentation/apple-silicon)
 [![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-blue.svg)](https://worktif.com/documents/terms-of-service-sandbox)
 
+---
+
+## 🚧 Service is temporarily unavailable
+
+The service is currently unavailable due to scheduled maintenance.  
+It will be **available starting from Monday, May 5th, 2025**.  
+Thank you for your patience!
+
+---
+
 **The New Standard**  
 Optimized for **x86-64**, **Intel**, and **ARM (Apple Silicon M1–M4)** servers.
 
