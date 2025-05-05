@@ -5,11 +5,11 @@
 
 ---
 
-## 🚧 Service is temporarily unavailable
+## 📈 Performance Update – May 2025
 
-The service is currently unavailable due to scheduled maintenance.  
-It will be **available starting from Monday, May 5th, 2025**.  
-Thank you for your patience!
+🚀 Performance increased at least 2× across all benchmarks
+
+We've revisited and optimized every core performance-critical path in Purem. Through a series of low-level enhancements and architecture-specific optimizations, the system now demonstrates at least double the speed compared to previous versions – with real-world benchmarks confirming these improvements on all supported platforms.
 
 ---
 
