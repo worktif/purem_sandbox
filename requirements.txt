@@ -1,4 +1,4 @@
-purem==2.1.6
+purem==3.0.1
 annotated-types==0.7.0
 backports.tarfile==1.2.0
 black==25.1.0
