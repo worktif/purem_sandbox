@@ -170,11 +170,11 @@ Here's a quick look at how Purem compares to existing Python ML libraries:
 
 ### 📊 Benchmark Comparison: ARM64 vs x86\_64
 
-| Metric                                              | ARM64                                                             | x86\_64                                                           |
-|-----------------------------------------------------| ----------------------------------------------------------------- |-------------------------------------------------------------------|
-| *Acceleration (Purem vs NumPy, PyTorch, Numba)*     | ![Acceleration](docs/assets/arm/benchmark_acceleration_large.png) | ![Acceleration](docs/assets/x86/benchmark_acceleration_large.png) |
-| *Operations per second on large inputs (log scale)* | ![OPS](docs/assets/arm/benchmark_ops_large.png)                   | ![OPS](docs/assets/x86/benchmark_ops_full.png)                    |
-| *Mean numerical error – lower = better*             | ![Stability](docs/assets/arm/benchmark_mean_large.png)            | ![Stability](docs/assets/x86/benchmark_mean_full.png)             |
+| Metric                                              | ARM64                                                               | x86\_64                                                             |
+|-----------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|
+| *Acceleration (Purem vs NumPy, PyTorch, Numba)*     | ![Acceleration](./docs/assets/arm/benchmark_acceleration_large.png) | ![Acceleration](./docs/assets/x86/benchmark_acceleration_large.png) |
+| *Operations per second on large inputs (log scale)* | ![OPS](./docs/assets/arm/benchmark_ops_large.png)                   | ![OPS](./docs/assets/x86/benchmark_ops_full.png)                    |
+| *Mean numerical error – lower = better*             | ![Stability](./docs/assets/arm/benchmark_mean_large.png)            | ![Stability](./docs/assets/x86/benchmark_mean_full.png)             |
 
 
 💡 **Note**: All benchmarks were run under identical conditions per architecture to ensure fair comparison.
