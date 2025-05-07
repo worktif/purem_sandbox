@@ -5,20 +5,8 @@
 
 ---
 
-## 📈 Performance Update – May 2025
-
-🚀 Performance increased at least 2× across all benchmarks
-
-We've revisited and optimized every core performance-critical path in Purem. Through a series of low-level enhancements and architecture-specific optimizations, the system now demonstrates at least double the speed compared to previous versions – with real-world benchmarks confirming these improvements on all supported platforms.
-
----
-
 **The New Standard**  
 Optimized for **x86-64**, **Intel**, and **ARM (Apple Silicon M1–M4)** servers.
-
----
-
-## About
 
 This repository contains **real-world benchmarks** for the Purem core technology, designed for **maximum performance testing** and **local validation**.
 
