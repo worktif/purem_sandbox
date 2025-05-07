@@ -24,9 +24,6 @@ jobs:
 
   benchmark-x86:
     runs-on: ubuntu-latest
-    env:
-      INSTANCE_TYPE: c5.large
-      AMI_ID: ami-01179af425b2ee025  # Ubuntu 22.04 LTS (eu-central-1)
     steps:
 
       - name: Checkout repo
