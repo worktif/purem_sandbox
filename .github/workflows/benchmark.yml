@@ -6,10 +6,10 @@ on:
       - main
 
 jobs:
-  benchmark-macos:
+  benchmark-arm:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -20,4 +20,111 @@ jobs:
           pip install pytest pytest-benchmark
       - name: Run benchmarks
         run: |
-          make test
+          make benchmarks_arm
+
+  benchmark-x86:
+    runs-on: ubuntu-latest
+    env:
+      INSTANCE_TYPE: c5.large
+      AMI_ID: ami-01179af425b2ee025  # Ubuntu 22.04 LTS (eu-central-1)
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Save SSH private key
+        run: |
+          echo "${{ secrets.AWS_SSH_KEY }}" > temp_ssh_key.pem
+          chmod 400 temp_ssh_key.pem
+
+      - name: Run EC2 instance
+        run: |
+          echo "Starting AWS EC2 instance..."
+          aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }} || { echo "Error: Failed to start EC2 instance."; exit 1; }
+          
+          echo "Waiting for instance to be ready..."
+          aws ec2 wait instance-status-ok --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" || { echo "Error: EC2 instance did not enter 'status-ok' state."; exit 1; }
+          
+          echo "EC2 instance started."
+
+      - name: Run benchmarks on EC2
+        env:
+          PUREM_LICENSE_KEY: ${{ secrets.PUREM_LICENSE_KEY }}
+        run: |
+          set -e  # Stop on any error
+          
+          PUBLIC_IP=$(aws ec2 describe-instances \
+            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+            --query "Reservations[0].Instances[0].PublicIpAddress" \
+            --output text)
+
+          if [ -z "$PUBLIC_IP" ]; then
+            echo "Error: Instance does not have a public IP address."
+            exit 1
+          fi
+
+          echo "Resolved Public IP: $PUBLIC_IP"
+
+          # Check SSH connectivity
+          echo "Testing SSH connectivity to $PUBLIC_IP..."
+          if nc -zv $PUBLIC_IP 22; then
+            echo "SSH port 22 is open."
+          else
+            echo "Error: Port 22 is not open. Ensure SSH is allowed in Security Group."
+            exit 1
+          fi
+          
+          # Copy target repo to EC2
+          scp -r -o StrictHostKeyChecking=no -i temp_ssh_key.pem ./src ubuntu@$PUBLIC_IP:~/
+          scp -r -o StrictHostKeyChecking=no -i temp_ssh_key.pem ./requirements.txt ubuntu@$PUBLIC_IP:~/requirements.txt
+          scp -r -o StrictHostKeyChecking=no -i temp_ssh_key.pem ./Makefile ubuntu@$PUBLIC_IP:~/Makefile
+          
+          # Define SSH connection
+          SSH="ssh -T -o StrictHostKeyChecking=no -i temp_ssh_key.pem ubuntu@$PUBLIC_IP"
+          echo "Connecting to EC2 and running benchmarks..."
+          $SSH << 'EOF'
+            set -e
+          
+            export PUREM_LICENSE_KEY="${PUREM_LICENSE_KEY}"
+          
+            sudo apt update
+            sudo apt install -y python3 python3-pip python3.12-venv git make
+          
+            python3 -m venv .venv && \
+            . .venv/bin/activate && \
+          
+            if [ -f requirements.txt ]; then
+              pip3 install -r requirements.txt
+              pip3 install pytest pytest-benchmark
+            else
+              echo "No requirements.txt."
+              exit 1
+            fi
+          
+            # Run tests
+            if [ -f Makefile ]; then
+              make benchmarks_x86
+            elif [ -f pytest.ini ] || [ -d tests ]; then
+              pytest
+            else
+              echo "No test entrypoint found."
+              exit 1
+            fi
+          
+          EOF
+
+      - name: Terminate EC2 instance
+        run: |
+          echo "Stopping AWS EC2 instance..."
+          aws ec2 stop-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }} || { echo "Error: Failed to stop EC2 instance."; exit 1; }
+          echo "EC2 instance stopped."
+
+      - name: Clean up SSH key
+        run: rm -f temp_ssh_key.pem

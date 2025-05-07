@@ -36,15 +36,16 @@ class BenchmarksAnalysis:
     plot types to assess performance metrics and acceleration factors across a range
     of input sizes.
 
-    :ivar benchmarks_plot_dir: Directory for storing generated benchmark plots.
-    :type benchmarks_plot_dir: pathlib.Path
-    :ivar test_number: The integer representation of the test identifier.
-    :type test_number: int
+    :ivar _benchmarks_plot_dir: Directory for storing generated benchmark plots.
+    :type _benchmarks_plot_dir: pathlib.Path
+    :ivar _test_number: The integer representation of the test identifier.
+    :type _test_number: int
     """
 
-    def __init__(self, test_id: str) -> None:
-        self.benchmarks_plot_dir = self.benchmarks_setup()
-        self.test_number = int(test_id)
+    def __init__(self, test_id: str, platform: str or None) -> None:
+        self._benchmarks_plot_dir = self.benchmarks_setup()
+        self._test_number = int(test_id)
+        self._platform = platform or "Darwin-CPython-3.11-64bit"
 
     @staticmethod
     def benchmarks_setup() -> Path:
@@ -109,8 +110,8 @@ class BenchmarksAnalysis:
         :raises FileNotFoundError: If no benchmark files matching the specified test number
             are found in the benchmarks directory.
         """
-        benchmarks_dir = ".benchmarks/Darwin-CPython-3.11-64bit"
-        search_pattern = str(self.test_number).zfill(4)
+        benchmarks_dir = f".benchmarks/{self._platform}"
+        search_pattern = str(self._test_number).zfill(4)
 
         matched_files = [f for f in os.listdir(benchmarks_dir) if f.startswith(search_pattern) and f.endswith(".json")]
 
@@ -201,7 +202,7 @@ class BenchmarksAnalysis:
             if metric != "stddev":
                 plt.yscale("log")
             plt.tight_layout()
-            plt.savefig(f"{self.benchmarks_plot_dir}/benchmark_{metric}_full.png")
+            plt.savefig(f"{self._benchmarks_plot_dir}/benchmark_{metric}_full.png")
             plt.close()
 
             plt.figure(figsize=(10, 6))
@@ -218,7 +219,7 @@ class BenchmarksAnalysis:
             if metric != "stddev":
                 plt.yscale("log")
             plt.tight_layout()
-            plt.savefig(f"{self.benchmarks_plot_dir}/benchmark_{metric}_large.png")
+            plt.savefig(f"{self._benchmarks_plot_dir}/benchmark_{metric}_large.png")
             plt.close()
 
     def acceleration_plot(self, df: pd.DataFrame) -> None:
@@ -263,7 +264,7 @@ class BenchmarksAnalysis:
             purem_ops = df_purem[df_purem["size"].isin(common_sizes)]["ops"].values
             other_ops = df_other[df_other["size"].isin(common_sizes)]["ops"].values
 
-            acceleration = purem_ops / other_ops
+            acceleration = other_ops / purem_ops
 
             try:
                 if len(acceleration) >= 5:
@@ -285,7 +286,7 @@ class BenchmarksAnalysis:
         plt.grid(True, which="both", linestyle='--', linewidth=0.6)
         plt.legend(fontsize=12)
         plt.tight_layout()
-        plt.savefig(f"{self.benchmarks_plot_dir}/benchmark_acceleration_large.png")
+        plt.savefig(f"{self._benchmarks_plot_dir}/benchmark_acceleration_large.png")
         plt.close()
 
     def markdown_data_frame(self) -> pd.DataFrame:
@@ -353,7 +354,7 @@ class BenchmarksAnalysis:
 
         grouped = df.groupby('Elements')
 
-        with open(f"{self.benchmarks_plot_dir}/benchmarks_table.md", "w") as f:
+        with open(f"{self._benchmarks_plot_dir}/benchmarks_table.md", "w") as f:
             f.write("# Benchmark Results\n\n")
             for size, group in grouped:
                 f.write(f"### Elements: {size}\n\n")
