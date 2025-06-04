@@ -152,7 +152,6 @@ Check it out: [CI/CD Purem Benchmarks](https://github.com/worktif/purem_sandbox/
 ## 📊 Benchmark Highlights
 
 Here's a quick look at how Purem compares to existing Python ML libraries:
-Вот аккуратно оформленная **Markdown таблица**, сравнивающая результаты для `ARM64` и `x86_64` по тем же трём категориям с подписями и изображениями:
 
 ---
 
