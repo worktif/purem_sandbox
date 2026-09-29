@@ -49,7 +49,7 @@ You can **freely test and benchmark** Purem locally – the **same architecture*
 - MacBook or Mac server with Apple Silicon (M1–M4) – **or any x86-64 server** with supported Purem license.
 
 #### About the Makefile
-- 🧠 This project includes a Makefile for internal tasks like testing.
+- This project includes a Makefile for internal tasks like testing.
 - 👉 You can run it if you like – it won't affect the project or cause any issues.
 
 However, to perform full tests and benchmarks properly, please follow the official usage instructions. Just use the project as normal.
